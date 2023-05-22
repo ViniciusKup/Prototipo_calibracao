@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gerador de PDF</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    textarea {
+      width: 300px;
+      height: 150px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gerador de PDF</h1>
+  <label for="equipamento">Equipamento:</label>
+  <input type="text" id="equipamento" placeholder="Digite o nome do equipamento">
+
+  <label for="tag">Tag:</label>
+  <input type="text" id="tag" placeholder="Digite a tag do equipamento">
+
+  <label for="localizacao">Localização:</label>
+  <input type="text" id="localizacao" placeholder="Digite a localização do equipamento">
+
+  <label for="tempPadrao">Temperatura do Padrão:</label>
+  <input type="number" id="tempPadrao" placeholder="Digite a temperatura do padrão">
+
+  <label for="tempEquipamento">Temperatura do Equipamento:</label>
+  <input type="number" id="tempEquipamento" placeholder="Digite a temperatura do equipamento">
+
+  <button onclick="gerarPDF()">Gerar PDF</button>
+
+  <script>
+    function gerarPDF() {
+      var equipamento = document.getElementById('equipamento').value;
+      var tag = document.getElementById('tag').value;
+      var localizacao = document.getElementById('localizacao').value;
+      var tempPadrao = document.getElementById('tempPadrao').value;
+      var tempEquipamento = document.getElementById('tempEquipamento').value;
+
+      var docDefinition = {
+        content: [
+          { text: 'Dados do Equipamento', style: 'header' },
+          {
+            table: {
+              widths: ['*', '*'],
+              body: [
+                ['Equipamento:', equipamento],
+                ['Tag:', tag],
+                ['Localização:', localizacao],
+                ['Temperatura do Padrão:', tempPadrao],
+                ['Temperatura do Equipamento:', tempEquipamento]
+              ]
+            }
+          }
+        ],
+        styles: {
+          header: {
+            fontSize: 16,
+            bold: true,
+            margin: [0, 0, 0, 10]
+          }
+        }
+      };
+
+      pdfMake.createPdf(docDefinition).download('documento.pdf');
+    }
+  </script>
+</body>
+</html>
